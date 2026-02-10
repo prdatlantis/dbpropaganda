@@ -3,156 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Gestionale</title>
+    <title>Gestionale Reale - Admin</title>
     <style>
-        /* [Mantenuti i tuoi stili CSS originali] */
+        :root {
+            --bg-dark: #0d0d0d;
+            --card-bg: #1a1a1b;
+            --primary: #28a745;
+            --text: #e0e0e0;
+            --accent: #444;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; background: #0d0d0d; color: #e0e0e0; }
-        .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .login-box { background: #1a1a1b; border-radius: 12px; padding: 50px 40px; width: 100%; max-width: 420px; box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8); }
-        .login-logo { text-align: center; font-size: 48px; margin-bottom: 15px; }
-        .login-title { text-align: center; font-size: 28px; font-weight: 600; margin-bottom: 10px; }
-        .login-subtitle { text-align: center; color: #888; margin-bottom: 40px; font-size: 14px; }
-        .form-group { margin-bottom: 25px; position: relative; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #aaa; font-size: 14px; }
-        .form-group input { width: 100%; padding: 14px; border: 1px solid #444; border-radius: 6px; background: #2a2a2b; color: #e0e0e0; font-size: 15px; transition: border 0.2s; }
-        .form-group input:focus { outline: none; border-color: #28a745; }
-        .toggle-pass { position: absolute; right: 15px; top: 38px; cursor: pointer; color: #888; user-select: none; }
-        .btn { padding: 10px 24px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s; font-size: 14px; }
-        .btn-primary { background: #28a745; color: white; width: 100%; padding: 14px; font-size: 16px; }
-        .error-message { background: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #dc3545; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; text-align: center; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-dark); color: var(--text); }
+
+        /* LOGIN PAGE */
+        #login-page {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, #1a1a1b 0%, #000 100%);
+        }
+
+        .login-box {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .form-group { text-align: left; margin-bottom: 20px; position: relative; }
+        .form-group label { display: block; margin-bottom: 8px; color: #888; font-size: 14px; }
+        .form-group input { 
+            width: 100%; padding: 12px; border: 1px solid var(--accent); 
+            border-radius: 6px; background: #2a2a2b; color: #fff; 
+        }
         
-        .app-container { display: none; padding-top: 60px; }
-        .app-container.active { display: block; }
-        
-        /* NAVBAR & RESTO DELLO STILE (Mantenuto) */
-        .navbar { position: fixed; top: 0; left: 0; right: 0; background: #1a1a1b; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 1000; }
-        .navbar-menu { display: flex; gap: 40px; list-style: none; }
-        .navbar-menu li { cursor: pointer; padding: 8px 16px; border-radius: 4px; transition: background 0.2s; font-weight: 500; }
-        .navbar-menu li.active { background: #333; color: #fff; }
-        .user-info { display: flex; align-items: center; gap: 10px; padding: 6px 14px; background: #2a2a2b; border-radius: 20px; font-size: 14px; }
-        .user-badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
-        .user-badge.owner { background: #ffd700; color: #000; }
-        .logout-btn { padding: 8px 16px; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer; }
-        .container { max-width: 1400px; margin: 30px auto; padding: 0 30px; }
+        .toggle-pass {
+            position: absolute; right: 12px; top: 38px;
+            cursor: pointer; user-select: none;
+        }
+
+        .btn-login {
+            width: 100%; padding: 12px; background: var(--primary);
+            color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
+        }
+
+        /* APP LAYOUT */
+        #app { display: none; }
+        .navbar {
+            background: var(--card-bg);
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .nav-links { display: flex; list-style: none; gap: 25px; }
+        .nav-links li { cursor: pointer; font-weight: 500; color: #aaa; transition: 0.3s; }
+        .nav-links li:hover, .nav-links li.active { color: var(--primary); }
+
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
         .section { display: none; }
         .section.active { display: block; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        table { width: 100%; border-collapse: collapse; background: #1a1a1b; border-radius: 8px; overflow: hidden; }
-        th { background: #2a2a2b; padding: 16px; text-align: left; color: #aaa; font-size: 12px; }
-        td { padding: 16px; border-bottom: 1px solid #2a2a2b; }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 2000; align-items: center; justify-content: center; }
-        .modal-overlay.active { display: flex; }
-        .modal { background: #1a1a1b; border-radius: 12px; padding: 30px; width: 90%; max-width: 500px; }
+
+        /* TABLES */
+        table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 8px; overflow: hidden; margin-top: 20px; }
+        th { background: #2a2a2b; padding: 15px; text-align: left; font-size: 13px; color: #888; }
+        td { padding: 15px; border-bottom: 1px solid #2a2a2b; font-size: 14px; }
+
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+        .badge.neutro { background: #555; }
+        .badge.verificato { background: #28a745; color: white; }
     </style>
 </head>
 <body>
 
-    <div class="login-container" id="login-page">
+    <div id="login-page">
         <div class="login-box">
-            <div class="login-logo">🔐</div>
-            <h1 class="login-title">Sistema Gestionale</h1>
-            <p class="login-subtitle">Accedi con le tue credenziali</p>
-            <div id="login-error" class="error-message" style="display: none;"></div>
+            <h2 style="margin-bottom: 20px;">Accedi al Gestionale</h2>
             <form id="login-form">
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" name="username" placeholder="Inserisci username" required autofocus>
+                    <input type="text" id="user" required>
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" id="password-field" placeholder="Inserisci password" required>
-                    <span class="toggle-pass" id="toggle-password">👁️</span>
+                    <input type="password" id="pass" required>
+                    <span class="toggle-pass" onclick="togglePass()">👁️</span>
                 </div>
-                <button type="submit" class="btn btn-primary" id="login-btn">Accedi</button>
+                <button type="submit" class="btn-login">ACCEDI</button>
             </form>
         </div>
     </div>
 
-    <div class="app-container" id="app">
+    <div id="app">
         <nav class="navbar">
-            <ul class="navbar-menu">
-                <li class="active" data-section="registro">REGISTRO</li>
-                <li data-section="dipendenti">DIPENDENTI</li>
-                <li data-section="ruoli">RUOLI</li>
-                <li data-section="utenti" id="nav-utenti" style="display: none;">UTENTI</li>
+            <ul class="nav-links">
+                <li class="active" onclick="showSection('registro')">REGISTRO</li>
+                <li onclick="showSection('dipendenti')">DIPENDENTI</li>
             </ul>
-            <div class="navbar-user">
-                <div class="user-info">
-                    <span id="username-display"></span>
-                    <span class="user-badge owner" id="role-badge">OWNER</span>
-                </div>
-                <button class="logout-btn" onclick="logout()">Esci</button>
-            </div>
+            <button onclick="location.reload()" style="background:none; border:none; color:#ff4444; cursor:pointer;">Esci</button>
         </nav>
 
         <div class="container">
             <section id="registro" class="section active">
-                <div class="section-header">
-                    <h2>Registro Tesseramenti</h2>
-                    <button class="btn btn-primary" onclick="openModal('tesseramento')">Aggiungi Tesseramento</button>
-                </div>
-                <table id="table-registro">
+                <h2>Tesseramenti dal Bot</h2>
+                <table>
                     <thead>
                         <tr>
-                            <th>Data</th><th>Propagandista</th><th>Tesserato</th><th>Lavoro</th><th>@TG</th><th>Stato</th>
+                            <th>DATA</th><th>PROPAGANDISTA</th><th>TESSERATO</th><th>LAVORO</th><th>TELEGRAM</th><th>STATO</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody-registro">
-                        </tbody>
+                    <tbody id="t-body-registro"></tbody>
+                </table>
+            </section>
+
+            <section id="dipendenti" class="section">
+                <h2>Elenco Personale</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th><th>NOME</th><th>RUOLO</th><th>DATA ASSUNZIONE</th>
+                        </tr>
+                    </thead>
+                    <tbody id="t-body-dipendenti"></tbody>
                 </table>
             </section>
         </div>
     </div>
 
     <script>
-        // VISIBILITÀ PASSWORD
-        document.getElementById('toggle-password').addEventListener('click', function() {
-            const passField = document.getElementById('password-field');
-            if (passField.type === "password") {
-                passField.type = "text";
-                this.textContent = "🔒";
-            } else {
-                passField.type = "password";
-                this.textContent = "👁️";
-            }
-        });
+        const API_URL = "http://localhost:5000/api/all";
 
-        // LOGICA DI ACCESSO
+        // 1. Visibilità Password
+        function togglePass() {
+            const p = document.getElementById('pass');
+            p.type = p.type === 'password' ? 'text' : 'password';
+        }
+
+        // 2. Login Reale
         document.getElementById('login-form').onsubmit = function(e) {
             e.preventDefault();
-            const user = e.target.username.value;
-            const pass = e.target.password.value;
+            const user = document.getElementById('user').value;
+            const pass = document.getElementById('pass').value;
 
-            // Simulazione Accesso
-            if (user === "admin" && pass === "admin") {
+            if(user === "admin" && pass === "admin") { // Puoi cambiare le credenziali qui
                 document.getElementById('login-page').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
-                document.getElementById('app').classList.add('active');
-                document.getElementById('username-display').textContent = user.toUpperCase();
+                loadAllData();
             } else {
-                const err = document.getElementById('login-error');
-                err.textContent = "Username o Password errati";
-                err.style.display = "block";
+                alert("Credenziali errate!");
             }
         };
 
-        function logout() {
-            location.reload();
+        // 3. Navigazione Sezioni
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-links li').forEach(l => l.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            // Aggiungi classe active al tasto cliccato
+            event.currentTarget.classList.add('active');
         }
 
-        // NAVIGAZIONE
-        document.querySelectorAll('.navbar-menu li').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.navbar-menu li').forEach(li => li.classList.remove('active'));
-                this.classList.add('active');
-                const section = this.dataset.section;
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                document.getElementById(section).classList.add('active');
-            });
-        });
+        // 4. Caricamento Dati dal Server Python
+        async function loadAllData() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
 
-        function openModal(id) { /* Logica modal */ }
+                // Popola Tesseramenti
+                const tBodyReg = document.getElementById('t-body-registro');
+                tBodyReg.innerHTML = data.tesseramenti.map(row => `
+                    <tr>
+                        <td>${row[1]}</td>
+                        <td>${row[2]}</td>
+                        <td>${row[3]}</td>
+                        <td>${row[4]}</td>
+                        <td>${row[5]}</td>
+                        <td><span class="badge ${row[6].toLowerCase()}">${row[6]}</span></td>
+                    </tr>
+                `).join('');
+
+                // Popola Dipendenti
+                const tBodyDip = document.getElementById('t-body-dipendenti');
+                tBodyDip.innerHTML = data.dipendenti.map(row => `
+                    <tr>
+                        <td>#${row[0]}</td>
+                        <td>${row[1]}</td>
+                        <td>${row[2]}</td>
+                        <td>${row[3]}</td>
+                    </tr>
+                `).join('');
+
+            } catch (error) {
+                console.error("Errore nel caricamento dati:", error);
+            }
+        }
+
+        // Aggiorna i dati ogni 10 secondi per vedere i nuovi tesseramenti del bot
+        setInterval(() => {
+            if(document.getElementById('app').style.display === 'block') {
+                loadAllData();
+            }
+        }, 10000);
+
     </script>
 </body>
 </html>
