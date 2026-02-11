@@ -2,367 +2,240 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MASTER PANEL V3 - FUTURISTIC EDITION</title>
+    <title>MASTER PANEL V3</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
-
         :root {
-            --bg: #050505;
-            --card: #0f0f10;
-            --neon: #00ff41; /* Verde Matrix */
-            --danger: #ff003c;
-            --accent: #1a1a1c;
-            --text: #e0e0e0;
-            --glow: 0 0 10px rgba(0, 255, 65, 0.3);
+            --bg: #0f111a;
+            --sidebar: #161925;
+            --card: #1c2030;
+            --accent: #10b981; /* Verde moderno */
+            --danger: #ef4444;
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: 'Rajdhani', sans-serif; 
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+        body { background: var(--bg); color: var(--text); }
 
-        /* --- LOGIN PAGE FUTURISTICA --- */
+        /* --- LOGIN --- */
         #login-page {
             height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(45deg, #000, #0a0a0a);
+            background: var(--bg);
         }
         .login-box {
-            background: var(--card); padding: 40px; border-radius: 2px;
-            width: 100%; max-width: 400px; border: 1px solid var(--neon);
-            box-shadow: var(--glow); text-align: center;
+            background: var(--card); padding: 40px; border-radius: 12px;
+            width: 100%; max-width: 400px; border: 1px solid #2d334a;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
         }
-        .login-box h2 { font-family: 'Orbitron', sans-serif; color: var(--neon); margin-bottom: 20px; letter-spacing: 5px; }
-        
-        input, select { 
-            width: 100%; padding: 12px; background: #000; border: 1px solid #333; 
-            color: var(--neon); border-radius: 0; margin-bottom: 15px; font-family: 'Orbitron';
-        }
-        input:focus { border-color: var(--neon); outline: none; box-shadow: var(--glow); }
 
         /* --- LAYOUT --- */
         #app { display: none; min-height: 100vh; }
-        
         .sidebar {
             position: fixed; width: 260px; height: 100vh;
-            background: var(--card); border-right: 1px solid var(--neon);
-            display: flex; flex-direction: column; z-index: 100;
+            background: var(--sidebar); padding: 20px;
         }
-        .sidebar-header { padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--accent); }
-        .sidebar-header h2 { font-family: 'Orbitron'; font-size: 18px; color: var(--neon); text-shadow: var(--glow); }
-
-        .nav-menu { flex-grow: 1; padding: 20px 0; }
-        .nav-item { 
-            padding: 15px 25px; cursor: pointer; color: #666; transition: 0.3s; 
-            display: flex; align-items: center; gap: 12px; font-weight: bold; text-transform: uppercase;
+        .nav-item {
+            padding: 12px 16px; margin-bottom: 8px; border-radius: 8px;
+            cursor: pointer; color: var(--text-dim); transition: 0.2s;
         }
-        .nav-item:hover, .nav-item.active { background: rgba(0, 255, 65, 0.05); color: var(--neon); text-shadow: var(--glow); }
-        .nav-item.active { border-right: 3px solid var(--neon); }
+        .nav-item:hover, .nav-item.active { background: #23283d; color: var(--accent); }
 
-        .main-content { margin-left: 260px; padding: 50px; }
-        .section { display: none; animation: slideIn 0.5s ease; }
-        .section.active { display: block; }
+        .main-content { margin-left: 260px; padding: 40px; }
+        .card { background: var(--card); padding: 24px; border-radius: 12px; margin-bottom: 24px; border: 1px solid #2d334a; }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        /* --- TABELLE --- */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px; color: var(--text-dim); font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #2d334a; }
+        td { padding: 14px 12px; border-bottom: 1px solid #23283d; font-size: 14px; }
 
-        /* --- TABLES --- */
-        .glass-panel { 
-            background: var(--card); border: 1px solid var(--accent); 
-            padding: 30px; margin-bottom: 20px; position: relative;
+        input, select {
+            background: #0f111a; border: 1px solid #2d334a; color: white;
+            padding: 8px 12px; border-radius: 6px; outline: none;
         }
-        .glass-panel::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--neon); box-shadow: var(--glow); }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { color: var(--neon); text-transform: uppercase; font-size: 12px; padding: 15px; text-align: left; border-bottom: 1px solid #333; }
-        td { padding: 15px; border-bottom: 1px solid #1a1a1c; font-size: 15px; }
-        tr:hover { background: rgba(255, 255, 255, 0.02); }
-
-        /* --- BUTTONS --- */
-        .btn { 
-            padding: 10px 20px; border: 1px solid var(--neon); background: transparent; 
-            color: var(--neon); cursor: pointer; font-family: 'Orbitron'; font-size: 11px;
-            transition: 0.3s; text-transform: uppercase;
+        .btn {
+            padding: 10px 20px; border-radius: 6px; border: none; font-weight: 600;
+            cursor: pointer; transition: 0.2s; font-size: 13px;
         }
-        .btn:hover { background: var(--neon); color: #000; box-shadow: var(--glow); }
-        .btn-danger { border-color: var(--danger); color: var(--danger); }
-        .btn-danger:hover { background: var(--danger); color: #fff; box-shadow: 0 0 10px var(--danger); }
-
-        .status-select { width: auto; margin: 0; padding: 5px; font-size: 12px; }
-
+        .btn-primary { background: var(--accent); color: #064e3b; }
+        .btn-danger { background: var(--danger); color: white; }
     </style>
 </head>
 <body>
 
     <div id="login-page">
         <div class="login-box">
-            <h2>SYSTEM_INIT</h2>
-            <form id="login-form">
-                <input type="text" id="username" placeholder="IDENTIFICATIVO" required>
-                <input type="password" id="password" placeholder="CODICE_ACCESSO" required>
-                <button type="submit" class="btn" style="width: 100%;">AUTENTICAZIONE</button>
-            </form>
+            <h2 style="margin-bottom: 24px; text-align: center;">Master Access</h2>
+            <input type="text" id="username" placeholder="Username" style="width: 100%; margin-bottom: 16px;">
+            <input type="password" id="password" placeholder="Password" style="width: 100%; margin-bottom: 24px;">
+            <button class="btn btn-primary" style="width: 100%;" onclick="tryLogin()">Login</button>
         </div>
     </div>
 
     <div id="app">
         <div class="sidebar">
-            <div class="sidebar-header">
-                <h2>MASTER_V3</h2>
-                <span id="user-tag" style="font-size: 10px; color: var(--neon);">OWNER_SESSION</span>
-            </div>
-            <div class="nav-menu">
-                <div class="nav-item active" onclick="showSection('registro')">📡 REGISTRO</div>
-                <div class="nav-item" onclick="showSection('stipendi')">💎 STIPENDI</div>
-                <div class="nav-item" onclick="showSection('propagandisti')">👥 TEAM</div>
-                <div class="nav-item" onclick="showSection('ruoli')">💼 RUOLI</div>
-                <div class="nav-item" onclick="showSection('credenziali')">🔐 ACCESSORI</div>
-            </div>
-            <div class="nav-item" style="color: var(--danger);" onclick="location.reload()">💾 LOGOUT</div>
+            <h3 style="margin-bottom: 32px; color: var(--accent);">MANAGEMENT V3</h3>
+            <div class="nav-item active" onclick="show('registro')">Registro Moduli</div>
+            <div class="nav-item" onclick="show('stipendi')">Stipendi</div>
+            <div class="nav-item" onclick="show('team')">Propagandisti</div>
+            <div class="nav-item" onclick="show('ruoli')">Ruoli & Paghe</div>
+            <div class="nav-item" onclick="show('users')">Accessi Sito</div>
         </div>
 
         <div class="main-content">
-            
-            <section id="registro" class="section active">
-                <div class="glass-panel">
-                    <h2>FLUSSO DATI TESSERAMENTI</h2>
+            <div id="registro" class="section">
+                <div class="card">
+                    <h2>Registro Tesseramenti</h2>
                     <table>
-                        <thead>
-                            <tr><th>DATA</th><th>PROPAGANDISTA</th><th>TESSERATO</th><th>STATO</th><th>AZIONI</th></tr>
-                        </thead>
+                        <thead><tr><th>DATA</th><th>PROPAGANDISTA</th><th>TESSERATO</th><th>STATO</th><th>AZIONI</th></tr></thead>
                         <tbody id="body-registro"></tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
-            <section id="stipendi" class="section">
-                <div class="glass-panel">
+            <div id="stipendi" class="section" style="display:none">
+                <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h2>ANALISI STIPENDI</h2>
-                        <button class="btn" onclick="calcolaStipendiReale()">ESEGUI CALCOLO</button>
+                        <h2>Calcolo Stipendi</h2>
+                        <button class="btn btn-primary" onclick="calcolaStipendi()">CALCOLA ORA</button>
                     </div>
-                    <table id="table-stipendi">
-                        <thead>
-                            <tr><th>NOME</th><th>RUOLO</th><th>VALIDI</th><th>PAGA UNITARIA</th><th>TOTALE</th></tr>
-                        </thead>
+                    <table style="margin-top: 20px;">
+                        <thead><tr><th>NOME</th><th>RUOLO</th><th>VALIDI</th><th>TOTALE</th></tr></thead>
                         <tbody id="body-stipendi"></tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
-            <section id="propagandisti" class="section">
-                <div class="glass-panel">
-                    <h2>GESTIONE TEAM</h2>
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <input type="text" id="p-nome" placeholder="NOME">
-                        <select id="p-ruolo" style="flex:1"></select>
-                        <button class="btn" onclick="addProp()">AGGIUNGI</button>
+            <div id="team" class="section" style="display:none">
+                <div class="card">
+                    <h2>Propagandisti</h2>
+                    <div style="margin: 20px 0; display: flex; gap: 10px;">
+                        <input type="text" id="p-nome" placeholder="Nome">
+                        <select id="p-ruolo"></select>
+                        <button class="btn btn-primary" onclick="addProp()">Aggiungi</button>
                     </div>
-                    <table id="table-prop">
+                    <table id="table-team">
                         <thead><tr><th>NOME</th><th>RUOLO</th><th>AZIONI</th></tr></thead>
-                        <tbody id="body-propagandisti"></tbody>
+                        <tbody id="body-team"></tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
-            <section id="ruoli" class="section">
-                <div class="glass-panel">
-                    <h2>DEFINIZIONE RUOLI</h2>
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <input type="text" id="r-nome" placeholder="RUOLO">
-                        <input type="number" id="r-paga" placeholder="PAGA €">
-                        <button class="btn" onclick="addRuolo()">CREA</button>
+            <div id="ruoli" class="section" style="display:none">
+                <div class="card">
+                    <h2>Ruoli e Paghe</h2>
+                    <div style="margin: 20px 0; display: flex; gap: 10px;">
+                        <input type="text" id="r-nome" placeholder="Nome Ruolo">
+                        <input type="number" id="r-paga" placeholder="Paga €">
+                        <button class="btn btn-primary" onclick="addRuolo()">Crea</button>
                     </div>
-                    <table id="table-ruoli">
-                        <thead><tr><th>NOME</th><th>PAGA</th><th>AZIONI</th></tr></thead>
+                    <table>
+                        <thead><tr><th>RUOLO</th><th>PAGA</th><th>AZIONI</th></tr></thead>
                         <tbody id="body-ruoli"></tbody>
                     </table>
                 </div>
-            </section>
+            </div>
 
-            <section id="credenziali" class="section">
-                <div class="glass-panel">
-                    <h2>SISTEMA ACCESSI</h2>
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <input type="text" id="u-user" placeholder="USER">
-                        <input type="text" id="u-pass" placeholder="PASS">
-                        <button class="btn" onclick="addUser()">GENERA</button>
+            <div id="users" class="section" style="display:none">
+                <div class="card">
+                    <h2>Credenziali Sito</h2>
+                    <div style="margin: 20px 0; display: flex; gap: 10px;">
+                        <input type="text" id="u-user" placeholder="Nuovo User">
+                        <input type="text" id="u-pass" placeholder="Nuova Pass">
+                        <button class="btn btn-primary" onclick="addUser()">Genera</button>
                     </div>
-                    <table>
+                    <table id="table-users">
                         <thead><tr><th>USER</th><th>PASS</th><th>AZIONI</th></tr></thead>
-                        <tbody id="body-utenti"></tbody>
+                        <tbody id="body-users"></tbody>
                     </table>
                 </div>
-            </section>
-
+            </div>
         </div>
     </div>
 
     <script>
-        const API_BASE = "http://localhost:5000/api";
-        let cachedData = {};
+        const API = "http://localhost:5000/api";
+        let store = {};
 
-        // Login
-        document.getElementById('login-form').onsubmit = async function(e) {
-            e.preventDefault();
-            const u = document.getElementById('username').value;
-            const p = document.getElementById('password').value;
-            try {
-                const res = await fetch(`${API_BASE}/data`);
-                const data = await res.json();
-                const user = data.utenti.find(x => x[1] === u && x[2] === p);
-                if (user) {
-                    document.getElementById('login-page').style.display = 'none';
-                    document.getElementById('app').style.display = 'flex';
-                    loadData();
-                } else { alert("ACCESSO NEGATO"); }
-            } catch (err) { alert("SERVER OFFLINE"); }
-        };
-
-        function showSection(id) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.currentTarget.classList.add('active');
-            loadData();
+        async function tryLogin() {
+            const res = await fetch(`${API}/data`);
+            const data = await res.json();
+            const user = data.utenti.find(u => u[1] === document.getElementById('username').value && u[2] === document.getElementById('password').value);
+            if(user) {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('app').style.display = 'flex';
+                load();
+            } else { alert("Negato."); }
         }
 
-        async function loadData() {
-            const res = await fetch(`${API_BASE}/data`);
-            const data = await res.json();
-            cachedData = data;
+        function show(id) {
+            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).style.display = 'block';
+            event.target.classList.add('active');
+            load();
+        }
 
-            // Render Registro con Cambio Stato ed Elimina
-            document.getElementById('body-registro').innerHTML = data.tesseramenti.map(r => `
+        async function action(data) {
+            await fetch(`${API}/action`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            load();
+        }
+
+        async function load() {
+            const res = await fetch(`${API}/data`);
+            store = await res.json();
+
+            // Render Registro
+            document.getElementById('body-registro').innerHTML = store.tesseramenti.map(t => `
                 <tr>
-                    <td>${r[1]}</td>
-                    <td>${r[2]}</td>
-                    <td>${r[3]}</td>
+                    <td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td>
                     <td>
-                        <select class="status-select" onchange="updateStato(${r[0]}, this.value)">
-                            <option value="Neutro" ${r[6]=='Neutro'?'selected':''}>Neutro</option>
-                            <option value="Valido" ${r[6]=='Valido'?'selected':''}>Valido</option>
-                            <option value="Invalido" ${r[6]=='Invalido'?'selected':''}>Invalido</option>
+                        <select onchange="action({type:'upd_tess', id:${t[0]}, stato:this.value})">
+                            <option value="Neutro" ${t[6]=='Neutro'?'selected':''}>Neutro</option>
+                            <option value="Valido" ${t[6]=='Valido'?'selected':''}>Valido</option>
+                            <option value="Invalido" ${t[6]=='Invalido'?'selected':''}>Invalido</option>
                         </select>
                     </td>
-                    <td><button class="btn btn-danger" onclick="deleteItem('del_tess', ${r[0]})">ELIMINA</button></td>
+                    <td><button class="btn btn-danger" onclick="action({type:'del_tess', id:${t[0]}})">X</button></td>
                 </tr>
             `).join('');
 
-            // Render Team
-            document.getElementById('body-propagandisti').innerHTML = data.dipendenti.map(d => `
+            // Render Team e Ruoli
+            document.getElementById('p-ruolo').innerHTML = store.ruoli.map(r => `<option value="${r[1]}">${r[1]}</option>`).join('');
+            document.getElementById('body-team').innerHTML = store.propagandisti.map(p => `
+                <tr><td>${p[1]}</td><td>${p[2]}</td><td><button class="btn btn-danger" onclick="action({type:'del_prop', id:${p[0]}})">Elimina</button></td></tr>
+            `).join('');
+
+            document.getElementById('body-ruoli').innerHTML = store.ruoli.map(r => `
+                <tr><td>${r[1]}</td><td>${r[2]}€</td><td><button class="btn btn-danger" onclick="action({type:'del_ruolo', id:${r[0]}})">X</button></td></tr>
+            `).join('');
+
+            document.getElementById('body-users').innerHTML = store.utenti.map(u => `
                 <tr>
-                    <td>${d[1]}</td><td>${d[2]}</td>
-                    <td><button class="btn btn-danger" onclick="deleteItem('del_prop', ${d[0]})">RIMUOVI</button></td>
-                </tr>
-            `).join('');
-
-            // Render Ruoli e Popola Select
-            const rSel = document.getElementById('p-ruolo');
-            rSel.innerHTML = data.ruoli.map(r => `<option value="${r[1]}">${r[1]}</option>`).join('');
-            document.getElementById('body-ruoli').innerHTML = data.ruoli.map(r => `
-                <tr>
-                    <td>${r[1]}</td><td>${r[2]}€</td>
-                    <td><button class="btn btn-danger" onclick="deleteItem('del_ruolo', ${r[0]})">ELIMINA</button></td>
-                </tr>
-            `).join('');
-
-            // Render Utenti
-            document.getElementById('body-utenti').innerHTML = data.utenti.map(u => `
-                <tr>
-                    <td><input type="text" value="${u[1]}" onchange="updateUser(${u[0]}, this.value, '${u[2]}')"></td>
-                    <td><input type="text" value="${u[2]}" onchange="updateUser(${u[0]}, '${u[1]}', this.value)"></td>
-                    <td><button class="btn btn-danger" onclick="deleteItem('del_user', ${u[0]})">X</button></td>
+                    <td><input value="${u[1]}" onchange="action({type:'upd_user', id:${u[0]}, u:this.value, p:'${u[2]}'})"></td>
+                    <td><input value="${u[2]}" onchange="action({type:'upd_user', id:${u[0]}, u:'${u[1]}', p:this.value})"></td>
+                    <td><button class="btn btn-danger" onclick="action({type:'del_user', id:${u[0]}})">X</button></td>
                 </tr>
             `).join('');
         }
 
-        // Funzioni Action
-        async function updateStato(id, stato) {
-            await fetch(`${API_BASE}/action`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type: 'upd_tess', id, stato})
-            });
-        }
-
-        async function deleteItem(type, id) {
-            if(!confirm("CONFERMI ELIMINAZIONE?")) return;
-            await fetch(`${API_BASE}/action`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type, id})
-            });
-            loadData();
-        }
-
-        async function addRuolo() {
-            const n = document.getElementById('r-nome').value;
-            const p = document.getElementById('r-paga').value;
-            await fetch(`${API_BASE}/action`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type: 'add_ruolo', n, p})
-            });
-            loadData();
-        }
-
-        async function addProp() {
-            const n = document.getElementById('p-nome').value;
-            const r = document.getElementById('p-ruolo').value;
-            await fetch(`${API_BASE}/action`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type: 'add_prop', n, r})
-            });
-            loadData();
-        }
-
-        // CALCOLO STIPENDI MANUALE
-        function calcolaStipendiReale() {
+        function calcolaStipendi() {
             const tbody = document.getElementById('body-stipendi');
-            tbody.innerHTML = "";
-            
-            cachedData.dipendenti.forEach(p => {
-                const moduliValidi = cachedData.tesseramenti.filter(t => t[2] === p[1] && t[6] === 'Valido').length;
-                const ruoloInfo = cachedData.ruoli.find(r => r[1] === p[2]);
-                const pagaUnit = ruoloInfo ? ruoloInfo[2] : 0;
-                const totale = moduliValidi * pagaUnit;
-
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${p[1]}</td>
-                        <td>${p[2]}</td>
-                        <td>${moduliValidi}</td>
-                        <td>${pagaUnit}€</td>
-                        <td style="color:var(--neon)">${totale}€</td>
-                    </tr>
-                `;
-            });
+            tbody.innerHTML = store.propagandisti.map(p => {
+                const count = store.tesseramenti.filter(t => t[2] === p[1] && t[6] === 'Valido').length;
+                const rInfo = store.ruoli.find(r => r[1] === p[2]);
+                const paga = rInfo ? rInfo[2] : 0;
+                return `<tr><td>${p[1]}</td><td>${p[2]}</td><td>${count}</td><td>${count * paga}€</td></tr>`;
+            }).join('');
         }
 
-        async function addUser() {
-            const u = document.getElementById('u-user').value;
-            const p = document.getElementById('u-pass').value;
-            await fetch(`${API_BASE}/action`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type: 'add_user', u, p})
-            });
-            loadData();
-        }
-
-        async function updateUser(id, u, p) {
-            await fetch(`${API_BASE}/action`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type: 'upd_user', id, u, p})
-            });
-        }
-
+        function addRuolo() { action({type:'add_ruolo', n: document.getElementById('r-nome').value, p: document.getElementById('r-paga').value}); }
+        function addProp() { action({type:'add_prop', n: document.getElementById('p-nome').value, r: document.getElementById('p-ruolo').value}); }
+        function addUser() { action({type:'add_user', u: document.getElementById('u-user').value, p: document.getElementById('u-pass').value}); }
     </script>
 </body>
 </html>
