@@ -2,240 +2,208 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>MASTER PANEL V3</title>
-    <style>
-        :root {
-            --bg: #0f111a;
-            --sidebar: #161925;
-            --card: #1c2030;
-            --accent: #10b981; /* Verde moderno */
-            --danger: #ef4444;
-            --text: #f8fafc;
-            --text-dim: #94a3b8;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
-        body { background: var(--bg); color: var(--text); }
-
-        /* --- LOGIN --- */
-        #login-page {
-            height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: var(--bg);
-        }
-        .login-box {
-            background: var(--card); padding: 40px; border-radius: 12px;
-            width: 100%; max-width: 400px; border: 1px solid #2d334a;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-        }
-
-        /* --- LAYOUT --- */
-        #app { display: none; min-height: 100vh; }
-        .sidebar {
-            position: fixed; width: 260px; height: 100vh;
-            background: var(--sidebar); padding: 20px;
-        }
-        .nav-item {
-            padding: 12px 16px; margin-bottom: 8px; border-radius: 8px;
-            cursor: pointer; color: var(--text-dim); transition: 0.2s;
-        }
-        .nav-item:hover, .nav-item.active { background: #23283d; color: var(--accent); }
-
-        .main-content { margin-left: 260px; padding: 40px; }
-        .card { background: var(--card); padding: 24px; border-radius: 12px; margin-bottom: 24px; border: 1px solid #2d334a; }
-
-        /* --- TABELLE --- */
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 12px; color: var(--text-dim); font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #2d334a; }
-        td { padding: 14px 12px; border-bottom: 1px solid #23283d; font-size: 14px; }
-
-        input, select {
-            background: #0f111a; border: 1px solid #2d334a; color: white;
-            padding: 8px 12px; border-radius: 6px; outline: none;
-        }
-
-        .btn {
-            padding: 10px 20px; border-radius: 6px; border: none; font-weight: 600;
-            cursor: pointer; transition: 0.2s; font-size: 13px;
-        }
-        .btn-primary { background: var(--accent); color: #064e3b; }
-        .btn-danger { background: var(--danger); color: white; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesseramenti Partito Riformista Democratico</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <!-- Login Section -->
+        <div id="loginSection" class="login-section">
+            <div class="header">
+                <h1>🇮🇹 TESSERAMENTI</h1>
+                <h2>PARTITO RIFORMISTA DEMOCRATICO</h2>
+                <div class="neon-line"></div>
+            </div>
+            
+            <div class="login-box">
+                <div class="input-group">
+                    <input type="text" id="username" placeholder="Username" autocomplete="off">
+                    <label>Username</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Password">
+                    <label>Password</label>
+                </div>
+                <button onclick="login()" class="neon-button">ACCEDI</button>
+            </div>
+        </div>
 
-    <div id="login-page">
-        <div class="login-box">
-            <h2 style="margin-bottom: 24px; text-align: center;">Master Access</h2>
-            <input type="text" id="username" placeholder="Username" style="width: 100%; margin-bottom: 16px;">
-            <input type="password" id="password" placeholder="Password" style="width: 100%; margin-bottom: 24px;">
-            <button class="btn btn-primary" style="width: 100%;" onclick="tryLogin()">Login</button>
+        <!-- Dashboard Section (Nascosta all'inizio) -->
+        <div id="dashboardSection" style="display: none;">
+            <!-- Navbar -->
+            <div class="navbar">
+                <div class="nav-brand">
+                    <h3>PRD Tesseramenti</h3>
+                </div>
+                <div class="nav-menu">
+                    <button class="nav-item active" onclick="showSection('registro')">📋 Registro</button>
+                    <button class="nav-item" onclick="showSection('stipendi')">💰 Stipendi</button>
+                    <button class="nav-item" onclick="showSection('ruoli')">👥 Ruoli</button>
+                    <button class="nav-item" onclick="showSection('propagandisti')">🎯 Propagandisti</button>
+                    <button class="nav-item" onclick="showSection('credenziali')">🔐 Credenziali</button>
+                    <button class="nav-item logout" onclick="logout()">🚪 Esci</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <h3 id="totalTesseramenti">0</h3>
+                        <p>Totale Tesseramenti</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3 id="validiCount">0</h3>
+                        <p>Validati</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">❌</div>
+                    <div class="stat-info">
+                        <h3 id="invalidiCount">0</h3>
+                        <p>Invalidi</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <h3 id="topPropagandista">-</h3>
+                        <p>Top Propagandista</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registro Tesseramenti -->
+            <div id="registroSection" class="dashboard-section">
+                <div class="section-header">
+                    <h2>📋 Registro Tesseramenti</h2>
+                    <div class="header-actions">
+                        <button onclick="loadTesseramenti()" class="neon-button small">🔄 Aggiorna</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="tesseramentiTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data</th>
+                                <th>Propagandista</th>
+                                <th>Tesserato</th>
+                                <th>Lavoro</th>
+                                <th>Telegram</th>
+                                <th>Stato</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tesseramentiBody">
+                            <!-- Popolato via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Stipendi -->
+            <div id="stipendiSection" class="dashboard-section" style="display: none;">
+                <div class="section-header">
+                    <h2>💰 Calcolo Stipendi</h2>
+                    <button onclick="calcolaStipendi()" class="neon-button">🧮 GENERA STIPENDI</button>
+                </div>
+                <div id="stipendiContainer">
+                    <!-- Popolato via JS -->
+                </div>
+            </div>
+
+            <!-- Ruoli -->
+            <div id="ruoliSection" class="dashboard-section" style="display: none;">
+                <div class="section-header">
+                    <h2>👥 Gestione Ruoli</h2>
+                    <button onclick="showAggiungiRuolo()" class="neon-button">➕ NUOVO RUOLO</button>
+                </div>
+                <div class="table-container">
+                    <table id="ruoliTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome Ruolo</th>
+                                <th>Paga per Tesseramento (€)</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ruoliBody">
+                            <!-- Popolato via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Propagandisti -->
+            <div id="propagandistiSection" class="dashboard-section" style="display: none;">
+                <div class="section-header">
+                    <h2>🎯 Gestione Propagandisti</h2>
+                    <button onclick="showAggiungiPropagandista()" class="neon-button">➕ AGGIUNGI PROPAGANDISTA</button>
+                </div>
+                <div class="table-container">
+                    <table id="propagandistiTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nickname</th>
+                                <th>@Telegram</th>
+                                <th>Ruolo</th>
+                                <th>Paga (€)</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="propagandistiBody">
+                            <!-- Popolato via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Credenziali -->
+            <div id="credenzialiSection" class="dashboard-section" style="display: none;">
+                <div class="section-header">
+                    <h2>🔐 Gestione Credenziali</h2>
+                    <button onclick="showAggiungiUtente()" class="neon-button">➕ NUOVO UTENTE</button>
+                </div>
+                <div class="table-container">
+                    <table id="utentiTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Data Creazione</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="utentiBody">
+                            <!-- Popolato via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="app">
-        <div class="sidebar">
-            <h3 style="margin-bottom: 32px; color: var(--accent);">MANAGEMENT V3</h3>
-            <div class="nav-item active" onclick="show('registro')">Registro Moduli</div>
-            <div class="nav-item" onclick="show('stipendi')">Stipendi</div>
-            <div class="nav-item" onclick="show('team')">Propagandisti</div>
-            <div class="nav-item" onclick="show('ruoli')">Ruoli & Paghe</div>
-            <div class="nav-item" onclick="show('users')">Accessi Sito</div>
-        </div>
-
-        <div class="main-content">
-            <div id="registro" class="section">
-                <div class="card">
-                    <h2>Registro Tesseramenti</h2>
-                    <table>
-                        <thead><tr><th>DATA</th><th>PROPAGANDISTA</th><th>TESSERATO</th><th>STATO</th><th>AZIONI</th></tr></thead>
-                        <tbody id="body-registro"></tbody>
-                    </table>
-                </div>
+    <!-- Modal per aggiungere/modificare -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Titolo</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
             </div>
-
-            <div id="stipendi" class="section" style="display:none">
-                <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h2>Calcolo Stipendi</h2>
-                        <button class="btn btn-primary" onclick="calcolaStipendi()">CALCOLA ORA</button>
-                    </div>
-                    <table style="margin-top: 20px;">
-                        <thead><tr><th>NOME</th><th>RUOLO</th><th>VALIDI</th><th>TOTALE</th></tr></thead>
-                        <tbody id="body-stipendi"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="team" class="section" style="display:none">
-                <div class="card">
-                    <h2>Propagandisti</h2>
-                    <div style="margin: 20px 0; display: flex; gap: 10px;">
-                        <input type="text" id="p-nome" placeholder="Nome">
-                        <select id="p-ruolo"></select>
-                        <button class="btn btn-primary" onclick="addProp()">Aggiungi</button>
-                    </div>
-                    <table id="table-team">
-                        <thead><tr><th>NOME</th><th>RUOLO</th><th>AZIONI</th></tr></thead>
-                        <tbody id="body-team"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="ruoli" class="section" style="display:none">
-                <div class="card">
-                    <h2>Ruoli e Paghe</h2>
-                    <div style="margin: 20px 0; display: flex; gap: 10px;">
-                        <input type="text" id="r-nome" placeholder="Nome Ruolo">
-                        <input type="number" id="r-paga" placeholder="Paga €">
-                        <button class="btn btn-primary" onclick="addRuolo()">Crea</button>
-                    </div>
-                    <table>
-                        <thead><tr><th>RUOLO</th><th>PAGA</th><th>AZIONI</th></tr></thead>
-                        <tbody id="body-ruoli"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="users" class="section" style="display:none">
-                <div class="card">
-                    <h2>Credenziali Sito</h2>
-                    <div style="margin: 20px 0; display: flex; gap: 10px;">
-                        <input type="text" id="u-user" placeholder="Nuovo User">
-                        <input type="text" id="u-pass" placeholder="Nuova Pass">
-                        <button class="btn btn-primary" onclick="addUser()">Genera</button>
-                    </div>
-                    <table id="table-users">
-                        <thead><tr><th>USER</th><th>PASS</th><th>AZIONI</th></tr></thead>
-                        <tbody id="body-users"></tbody>
-                    </table>
-                </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Popolato via JS -->
             </div>
         </div>
     </div>
 
-    <script>
-        const API = "http://localhost:5000/api";
-        let store = {};
-
-        async function tryLogin() {
-            const res = await fetch(`${API}/data`);
-            const data = await res.json();
-            const user = data.utenti.find(u => u[1] === document.getElementById('username').value && u[2] === document.getElementById('password').value);
-            if(user) {
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('app').style.display = 'flex';
-                load();
-            } else { alert("Negato."); }
-        }
-
-        function show(id) {
-            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).style.display = 'block';
-            event.target.classList.add('active');
-            load();
-        }
-
-        async function action(data) {
-            await fetch(`${API}/action`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
-            load();
-        }
-
-        async function load() {
-            const res = await fetch(`${API}/data`);
-            store = await res.json();
-
-            // Render Registro
-            document.getElementById('body-registro').innerHTML = store.tesseramenti.map(t => `
-                <tr>
-                    <td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td>
-                    <td>
-                        <select onchange="action({type:'upd_tess', id:${t[0]}, stato:this.value})">
-                            <option value="Neutro" ${t[6]=='Neutro'?'selected':''}>Neutro</option>
-                            <option value="Valido" ${t[6]=='Valido'?'selected':''}>Valido</option>
-                            <option value="Invalido" ${t[6]=='Invalido'?'selected':''}>Invalido</option>
-                        </select>
-                    </td>
-                    <td><button class="btn btn-danger" onclick="action({type:'del_tess', id:${t[0]}})">X</button></td>
-                </tr>
-            `).join('');
-
-            // Render Team e Ruoli
-            document.getElementById('p-ruolo').innerHTML = store.ruoli.map(r => `<option value="${r[1]}">${r[1]}</option>`).join('');
-            document.getElementById('body-team').innerHTML = store.propagandisti.map(p => `
-                <tr><td>${p[1]}</td><td>${p[2]}</td><td><button class="btn btn-danger" onclick="action({type:'del_prop', id:${p[0]}})">Elimina</button></td></tr>
-            `).join('');
-
-            document.getElementById('body-ruoli').innerHTML = store.ruoli.map(r => `
-                <tr><td>${r[1]}</td><td>${r[2]}€</td><td><button class="btn btn-danger" onclick="action({type:'del_ruolo', id:${r[0]}})">X</button></td></tr>
-            `).join('');
-
-            document.getElementById('body-users').innerHTML = store.utenti.map(u => `
-                <tr>
-                    <td><input value="${u[1]}" onchange="action({type:'upd_user', id:${u[0]}, u:this.value, p:'${u[2]}'})"></td>
-                    <td><input value="${u[2]}" onchange="action({type:'upd_user', id:${u[0]}, u:'${u[1]}', p:this.value})"></td>
-                    <td><button class="btn btn-danger" onclick="action({type:'del_user', id:${u[0]}})">X</button></td>
-                </tr>
-            `).join('');
-        }
-
-        function calcolaStipendi() {
-            const tbody = document.getElementById('body-stipendi');
-            tbody.innerHTML = store.propagandisti.map(p => {
-                const count = store.tesseramenti.filter(t => t[2] === p[1] && t[6] === 'Valido').length;
-                const rInfo = store.ruoli.find(r => r[1] === p[2]);
-                const paga = rInfo ? rInfo[2] : 0;
-                return `<tr><td>${p[1]}</td><td>${p[2]}</td><td>${count}</td><td>${count * paga}€</td></tr>`;
-            }).join('');
-        }
-
-        function addRuolo() { action({type:'add_ruolo', n: document.getElementById('r-nome').value, p: document.getElementById('r-paga').value}); }
-        function addProp() { action({type:'add_prop', n: document.getElementById('p-nome').value, r: document.getElementById('p-ruolo').value}); }
-        function addUser() { action({type:'add_user', u: document.getElementById('u-user').value, p: document.getElementById('u-pass').value}); }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
